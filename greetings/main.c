@@ -1,9 +1,19 @@
 #include <stdio.h>
 #include <time.h>
 #include <sqlite3.h>
-
+#include <string.h>
+int insertWiseMessage(char *s){
+  printf("message: %s\n", s);
+}
 int main(int agrc, char *argv[]){
+  
   sqlite3 *db;
+  for(int i = 1; i < agrc; i++)
+  {
+    if(strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--create") == 0)
+      insertWiseMessage(argv[i + 1]);
+    return 0; 
+  }
   char *err;
   int rc = sqlite3_open("full_of_wisdom_this_db_is.db", &db);
   if(rc != SQLITE_OK) {
@@ -43,7 +53,7 @@ int main(int agrc, char *argv[]){
     }
     else if(clock->tm_hour <= 23)
     {
-      printf("%s, remember this you will. Only the weak, the dark side of the force, embrace it\n", argv[1]);
+      printf("%s, remember this you will. The dark side of the force, only the weak embrace it\n", argv[1]);
     }
   }
   
