@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
@@ -5,28 +6,39 @@
 #include <sqlite3.h>
 
 
-void seeder(sqlite3 *db, char *err){
+void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err){
+  printf("message: %s\n", s);
+  const char sql_create[] = "INSERT INTO Messages (text) VALUES %s";
+  char buffer[strlen(sql_create) + 255];
+  sprintf(buffer, sql_create, s);
+  sqlite3_exec(db, sql_create, 0, 0, &err);
+}
+
+void seeder(sqlite3 *db, char * your_name, char *err){
     time_t now;
     struct tm *clock;
     time(&now);
+    char *str, *buffer;
+    int namelen = strlen(your_name)
     clock = localtime(&now);
-    if(clock->tm_hour < 6)
-    {
-      printf(" %s, my boy... why are you still awake? Hard programming night I see... I sense it..  \n", argv[1]);
-    }
-    else if(clock->tm_hour <= 12)
-    {
-      printf("%s!, Use your time wisely, you will. Trust in your judgement, I do\n", argv[1]); 
-    }
-    else if(clock->tm_hour <= 18)
-    {
-      printf("%s, the chosen one you are\n", argv[1]);
-    }
-    else if(clock->tm_hour <= 23)
-    {
-      printf("%s, remember this you will. The dark side of the force, only the weak embrace it\n", argv[1]);
-    }
-  }
+    str = ", my boy... why are you still awake? Hard programming night I see... I sense it..\n";
+    buffer = malloc(namelen + sizeof(str) + 1);
+    sprintf(buffer, "%s%s", your_name, str);
+    str = ", my boy... why are you still awake? Hard programming night I see... I sense it..\n";
+    insert_wise_message(buffer, "em", db, err);
+    str = "!, Use your time wisely, you will. Trust in your judgement, I do\n";
+    buffer = realloc(buffer, namelen + sizeof(str) + 1);
+    sprintf(buffer, "%s%s", your_name, str);
+    insert_wise_message(buffer, "m", db, err);
+    str = ", the chosen one you are\n";
+    buffer = realloc(buffer, namelen + sizeof(str) + 1);
+    sprintf(buffer, "%s%s", your_name, str);
+    insert_wise_message(buffer, "a", db, err);
+    str = ", remember this you will. The dark side of the force, only the weak embrace it\n";
+    buffer = realloc(buffer, namelen + sizeof(str) + 1);
+    sprintf(buffer, "%s%s", your_name, str);
+    insert_wise_message(buffer, "e", db, err);
+}
 bool is_valid_daytime(char *s){
   int len = strlen(s);
   if(len > 2){
@@ -40,13 +52,6 @@ bool is_valid_daytime(char *s){
       return true;
 
   return false;
-}
-void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err){
-  printf("message: %s\n", s);
-  const char sql_create[] = "INSERT INTO Messages (text) VALUES %s";
-  char buffer[strlen(sql_create) + 255];
-  sprintf(buffer, sql_create, s);
-  sqlite3_exec(db, sql_create, 0, 0, &err);
 }
 int main(int agrc, char *argv[]){
   
