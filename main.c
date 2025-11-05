@@ -8,7 +8,6 @@
 #include "seeder.h"
 #include "service.h"
 
-
 bool is_valid_daytime(char *s){
   int len = strlen(s);
   if(len > 2){
