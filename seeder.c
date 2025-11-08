@@ -16,7 +16,7 @@ void seeder(sqlite3 *db, char * your_name, char *err){
   time_t now;
   struct tm *clock;
   time(&now);
-  char *str, *buffer;
+  char *buffer;
   int namelen = strlen(your_name);
   clock = localtime(&now);
   Messages messages[] = {
@@ -25,23 +25,26 @@ void seeder(sqlite3 *db, char * your_name, char *err){
     {", the chosen one you are\n", "a"},
     {", remember this you will. The dark side of the force, only the weak embrace it\n", "e"}
   };
-  buffer = (char *) malloc(namelen + sizeof(messages[0]) * 2 + 1);
+  buffer = (char *) malloc((namelen + strlen(messages[0].text) + 1) * 2);
+  printf("%lu\n", strlen(buffer));
   if(buffer == NULL){
     fprintf(stderr, "Unable to allocate memory to buffer");
     return;
   }
-  for (int i = 0; i < sizeof(messages) / sizeof(messages[0]); i++){
-    if(sizeof(messages[i]) + namelen + 1 > sizeof(buffer))
+  sprintf(buffer, "%s%s", your_name, messages[0].text);
+  insert_wise_message(buffer, messages[0].daytime, db, err);
+  for (int i = 1; i < sizeof(messages) / sizeof(messages[1]); i++){
+    if(strlen(messages[i].text) + namelen + 1 > strlen(buffer))
     {
-      fprintf(stdout, "Reallocating memory to buffer");
-      buffer = realloc(buffer, (sizeof(messages[i]) + namelen + 1) * 2);
+      fprintf(stdout, "Reallocating memory to buffer\n");
+      buffer = realloc(buffer, (strlen(messages[i].text) + namelen + 1) * 2);
       if(buffer == NULL){
         fprintf(stderr, "Unable to allocate memory to buffer");
         return;
       }
     }
-    sprintf(buffer, "%s%s", your_name, str);
-    insert_wise_message(buffer, "em", db, err);
+    sprintf(buffer, "%s%s", your_name, messages[i].text);
+    insert_wise_message(buffer, messages[i].daytime, db, err);
   }
   free(buffer);
 }
