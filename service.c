@@ -11,6 +11,7 @@ char *allocate_message(char *s)
     fprintf(stderr, "Unable to allocate memory to buffer");
     exit(EXIT_FAILURE);
   }
+  buffer = s;
   return buffer;
 }
 void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err)

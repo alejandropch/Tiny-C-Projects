@@ -26,7 +26,6 @@ void seeder(sqlite3 *db, char * your_name, char *err){
     {", remember this you will. The dark side of the force, only the weak embrace it\n", "e"}
   };
   buffer = (char *) malloc((namelen + strlen(messages[0].text) + 1) * 2);
-  printf("%lu\n", strlen(buffer));
   if(buffer == NULL){
     fprintf(stderr, "Unable to allocate memory to buffer");
     return;
