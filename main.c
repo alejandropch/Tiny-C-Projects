@@ -22,15 +22,7 @@ bool is_valid_daytime(char *s){
 
   return false;
 }
-bool exploded(int *rc, sqlite3 *db, char *err){
-  if(*rc != SQLITE_OK) {
-    fprintf(stderr, "Error: %s\n", err);
-    sqlite3_free(err);
-    sqlite3_close(db);
-    return true;
-  }
-  return false;
-}
+
 int main(int argc, char *argv[]){
 
   sqlite3 *db;

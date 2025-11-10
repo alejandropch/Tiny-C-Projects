@@ -1,10 +1,5 @@
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <stdbool.h>
-#include <string.h>
-#include <sqlite3.h>
+#include "seeder.h"
 #include "service.h"
 
 typedef struct {
@@ -21,7 +16,7 @@ void seeder(sqlite3 *db, char * your_name, char *err){
   clock = localtime(&now);
   Messages messages[] = {
     {", my boy... why are you still awake? Hard programming night I see... I sense it..\n", "em"},
-    {"!, Use your time wisely, you will. Trust in your judgement, I do\n", "m"},
+    {"! Use your time wisely, you will. Trust in your judgement, I do\n", "m"},
     {", the chosen one you are\n", "a"},
     {", remember this you will. The dark side of the force, only the weak embrace it\n", "e"}
   };
