@@ -1,2 +1,3 @@
 *.db
 greetings
+compile_commands.json
