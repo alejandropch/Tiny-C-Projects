@@ -1,5 +1,7 @@
 #include "service.h"
+#include <sqlite3.h>
 #include <stdio.h>
+#include <time.h>
 
 char *allocate_message(char *s)
 {
@@ -19,6 +21,24 @@ bool exploded(int *rc, sqlite3 *db, char *err){
     return true;
   }
   return false;
+}
+void print_random_message(sqlite3 *db, char *err)
+{
+  int rc;
+  time_t now;
+  sqlite3_stmt *stmr;
+  struct tm *clock;
+  time(&now);
+  char *buffer;
+  clock = localtime(&now);
+  const char sql_select[] = "SELECT message, daytime FROM messages WHERE (:hash_id)";
+  const char sql_count[] = "SELECT COUNT(*) FROM messages";
+
+  rc = sqlite3_prepare_v2(db, sql_count, -1, &smt, NULL);
+  if(exploded(&rc, db, err));
+
+  rc = sqlite3_prepare_v2(db, sql_select, -1, &smt, NULL);
+
 }
 void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err)
 {

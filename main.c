@@ -68,5 +68,8 @@ int main(int argc, char *argv[]){
         }
       }
     }
+  // no flag, just print out some saved message
+  print_random_message(db, err);
+
   return 0; 
 }
