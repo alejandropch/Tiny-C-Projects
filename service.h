@@ -18,8 +18,8 @@ enum Daytime {
 #undef X
   DAYTIME_LENGTH 
 };
-  void print_random_message(sqlite3 *db, char *err);
-  void insert_wise_message(char *s, int day_time, sqlite3 *db, char *err);
-  bool exploded(int *rc, sqlite3 *db, char *err);
+  void print_random_message(sqlite3 *db);
+  void insert_wise_message(char *s, int day_time, sqlite3 *db);
+  bool exploded(int *rc, sqlite3 *db);
   char *allocate_message(char *s);
 #endif 
