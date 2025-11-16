@@ -1,6 +1,4 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <stdbool.h>
 #include <string.h>
 #include <sqlite3.h>
@@ -8,19 +6,22 @@
 #include "seeder.h"
 #include "service.h"
 
-bool is_valid_daytime(char *s){
+int get_valid_daytime(char *s){
   int len = strlen(s);
   if(len > 2){
-    fprintf(stderr, "your daytime is too big bro. (em, m, a, e)");
+#define X(name) #name,
+    fprintf(stderr, "your daytime is too big bro. (%s)\n", DAYTIME_LIST);
+#undef X
     return false;
   }
   char *valid_day_times[] =  { "em", "m", "a", "e"};
-  len = sizeof(valid_day_times) / sizeof(valid_day_times[0]);
-  for(int i = 0; i < len; i++)
+  for(int i = 0; i < DAYTIME_LENGTH; i++)
     if(strcmp(valid_day_times[i], s) == 0)
-      return true;
+    {
+      return i;
+    }
 
-  return false;
+  return -1;
 }
 
 int main(int argc, char *argv[]){

@@ -15,10 +15,10 @@ void seeder(sqlite3 *db, char * your_name, char *err){
   int namelen = strlen(your_name);
   clock = localtime(&now);
   Messages messages[] = {
-    {", my boy... why are you still awake? Hard programming night I see... I sense it..\n", "em"},
-    {"! Use your time wisely, you will. Trust in your judgement, I do\n", "m"},
-    {", the chosen one you are\n", "a"},
-    {", remember this you will. The dark side of the force, only the weak embrace it\n", "e"}
+    {", my boy... why are you still awake? Hard programming night I see... I sense it..\n", EARLY_MORNING},
+    {"! Use your time wisely, you will. Trust in your judgement, I do\n", MORNING},
+    {", the chosen one you are\n", AFTERNOON},
+    {", remember this you will. Only the weak, the dark side of the force, embrace it\n", EVENING}
   };
   buffer = (char *) malloc((namelen + strlen(messages[0].text) + 1) * 2);
   if(buffer == NULL){

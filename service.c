@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 char *allocate_message(char *s)
 {
   char *buffer = malloc(strlen(s) + 1);
@@ -22,15 +23,36 @@ bool exploded(int *rc, sqlite3 *db, char *err){
   }
   return false;
 }
+enum Daytime getDaytime (int hour) {
+  if( hour < 6 ){
+    return EARLY_MORNING;
+  }
+  if( hour < 12 ){
+    return MORNING;
+  }
+  if( hour < 18 ){
+    return AFTERNOON;
+  }
+  if( hour < 24 ){
+    return EVENING;
+  }
+  fprintf(stderr, "Error bro: getDaytime shouldn't be returning this enum 'EVENING'\n");
+  return EVENING;
+}
 void print_random_message(sqlite3 *db, char *err)
 {
-  int rc;
+  enum Daytime d;
+  
+  printf("Daytime enum size: %ld\n", sizeof(enum Daytime));
+  int rc, nmessages;
   time_t now;
   sqlite3_stmt *stm;
   struct tm *clock;
   time(&now);
   char *buffer;
   clock = localtime(&now);
+
+  d = getDaytime(clock->tm_hour);
   const char sql_select[] = "SELECT message, daytime FROM messages WHERE (:hash_id)";
   const char sql_count[] = "SELECT COUNT(*) FROM messages";
 
@@ -40,7 +62,7 @@ void print_random_message(sqlite3 *db, char *err)
   if(exploded(&rc, db, err)) return;
 
 }
-void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err)
+void insert_wise_message(char *s, int day_time, sqlite3 *db, char *err)
 {
   int m, dt, rc;
   sqlite3_stmt *stm;
@@ -53,7 +75,7 @@ void insert_wise_message(char *s, char *day_time, sqlite3 *db, char *err)
 
   rc = sqlite3_bind_text(stm, m, s, -1, SQLITE_STATIC);
   if(exploded(&rc, db, err)) return;
-  rc = sqlite3_bind_text(stm, dt, s, -1, SQLITE_STATIC);
+  rc = sqlite3_bind_int(stm, dt, day_time);
   if(exploded(&rc, db, err)) return;
   rc = sqlite3_step(stm);
   if(rc == SQLITE_DONE){
