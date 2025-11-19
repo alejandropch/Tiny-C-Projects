@@ -26,7 +26,6 @@ int get_valid_daytime(char *day_time){
     {
       return i;
     }
-
   return -1;
 }
 
@@ -34,7 +33,8 @@ int main(int argc, char *argv[]){
 
   sqlite3 *db;
   char *time, *message, *err;
-  int rc = sqlite3_open("full_of_wisdom_this_db_is.db", &db);
+  char *db_full_filename = "/usr/local/share/greetings/full_of_wisdom_this_db_is.db";
+  int rc = sqlite3_open(db_full_filename, &db);
   if(exploded(&rc, db))
   {
     fprintf(stderr, "error when opening a connection to SQLite3: %s\n", err);
