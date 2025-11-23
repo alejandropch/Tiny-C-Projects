@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <sqlite3.h>
-
 #include "seeder.h"
 #include "service.h"
 

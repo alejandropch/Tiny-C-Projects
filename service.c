@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-
 char *allocate_message(char *s)
 {
   char *buffer = malloc(strlen(s) + 1);
