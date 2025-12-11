@@ -1,5 +1,9 @@
 #include "seeder.h"
-#include "service.h"
+#include "ops/service.h"
+
+#include <stdio.h> 
+#include <stdlib.h>
+#include <string.h>
 
 char *get_valid_day_time_text (){
 #define X(name) #name ","
@@ -15,7 +19,6 @@ int get_valid_daytime(char *day_time){
 #define X(name) #name,
   char *valid_day_times[] =  { DAYTIME_LIST };
 #undef X
-  char *str_daytimes = get_valid_day_time_text();
   for(int i = 0; i < DAYTIME_LENGTH; i++)
     if(strcmp(valid_day_times[i], day_time) == 0)
     {
@@ -32,7 +35,7 @@ int main(int argc, char *argv[]){
   int rc = sqlite3_open(db_full_filename, &db);
   if(exploded(&rc, db))
   {
-    fprintf(stderr, "error when opening a connection to SQLite3: %s\n", err);
+    fprintf(stderr, "error when opening a connection to SQLite3\n");
     return 1;
   }
   const char sql_create[] = "CREATE TABLE IF NOT EXISTS messages (id INT AUTO_INCREMENT PRIMARY_KEY, text VARCHAR(255), daytime INT);";

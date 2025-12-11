@@ -39,7 +39,7 @@ enum Daytime getDaytime (int hour) {
 }
 void print_random_message(sqlite3 *db)
 {
-  int rc, nmessages, dt, idt;
+  int rc, dt, idt;
   const unsigned char *selected_message;
   time_t now;
   sqlite3_stmt *stm;

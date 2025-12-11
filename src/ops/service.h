@@ -1,9 +1,7 @@
 #ifndef SERVICE_H
 #define SERVICE_H
+
 #include <stdbool.h>
-#include <stdio.h> 
-#include <stdlib.h>
-#include <string.h>
 #include <sqlite3.h>
 
 #define DAYTIME_LIST \
@@ -18,8 +16,10 @@ enum Daytime {
 #undef X
   DAYTIME_LENGTH 
 };
-  void print_random_message(sqlite3 *db);
-  void insert_wise_message(char *s, int day_time, sqlite3 *db);
-  bool exploded(int *rc, sqlite3 *db);
-  char *allocate_message(char *s);
+
+void print_random_message(sqlite3 *db);
+void insert_wise_message(char *s, int day_time, sqlite3 *db);
+bool exploded(int *rc, sqlite3 *db);
+char *allocate_message(char *s);
+
 #endif 
